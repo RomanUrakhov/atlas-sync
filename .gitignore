@@ -1,0 +1,4 @@
+.env
+.vscode
+atlas-sync-sa-key-file.json
+/atlas-sync
