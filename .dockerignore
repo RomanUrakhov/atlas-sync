@@ -1,0 +1,20 @@
+# Secrets — never bake these into the image
+.env
+.env.*
+!.env.example
+atlas-sync-sa-key-file.json
+*-sa-key-file.json
+
+# Prebuilt local binary (the image builds its own)
+/atlas-sync
+
+# Local tooling / VCS
+.git
+.gitignore
+.vscode
+.claude
+docs
+
+# Docker files themselves
+Dockerfile
+.dockerignore
