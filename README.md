@@ -71,6 +71,43 @@ Or directly:
 - CI/CD pipeline (GitHub Actions)
 - Deploy as a Cloud Run Job on GCP, triggered by Cloud Scheduler
 
+## GCP bootstrap
+
+One-time, manual setup that must exist before Terraform can run — you cannot
+Terraform the GCS backend that Terraform stores its own state in. Run this once
+per project with an authenticated gcloud.
+
+```bash
+gcloud auth login
+gcloud config set project automations-498612
+
+# Enables required APIs and creates the versioned Terraform state bucket.
+# Override defaults with env vars, e.g. PROJECT_ID / REGION / STATE_BUCKET.
+./infra/bootstrap.sh
+```
+
+`bootstrap.sh` is idempotent — re-running it is safe. It enables Cloud Run,
+Cloud Scheduler, Secret Manager, Artifact Registry, IAM, and BigQuery (plus the
+STS/IAM-credentials APIs that Workload Identity Federation needs), then creates
+`gs://<project-id>-tf-state` with object versioning enabled.
+
+Once the bucket exists, the GCS backend is ready. Terraform reads
+Application Default Credentials (ADC), which are **separate** from the
+`gcloud auth login` above — without them `terraform init` fails with a
+misleading `could not find default credentials`. Set ADC up once:
+
+```bash
+gcloud auth application-default login
+cd infra/terraform
+terraform init
+```
+
+If your project differs from the default, point the backend at your bucket:
+
+```bash
+terraform init -backend-config="bucket=<your-project-id>-tf-state"
+```
+
 ## Project structure
 
 ```

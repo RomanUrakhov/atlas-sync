@@ -2,3 +2,10 @@
 .vscode
 atlas-sync-sa-key-file.json
 /atlas-sync
+
+# Terraform — provider binaries/backend cache and state are not committed;
+# the lock file (.terraform.lock.hcl) IS committed for reproducible providers.
+**/.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
