@@ -19,3 +19,9 @@ resource "google_project_iam_member" "ci_deployer_run" {
   role    = "roles/run.developer"
   member  = "serviceAccount:${google_service_account.ci_deployer.email}"
 }
+
+resource "google_service_account_iam_member" "ci_deployer_act_as_job" {
+  service_account_id = google_service_account.job.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${google_service_account.ci_deployer.email}"
+}
