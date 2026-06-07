@@ -12,3 +12,8 @@ output "image_repository" {
   description = "Fully-qualified image path the CD pipeline pushes to and the Cloud Run Job pulls from (issue #7). Append a tag, e.g. :<git-sha>."
   value       = "${var.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.containers.repository_id}/atlas-sync"
 }
+
+output "workload_identity_provider" {
+  description = "Full WIF provider resource name for google-github-actions/auth in CI (issue #7)"
+  value       = google_iam_workload_identity_pool_provider.github.name
+}

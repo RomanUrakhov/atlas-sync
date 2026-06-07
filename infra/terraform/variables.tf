@@ -33,3 +33,9 @@ variable "scheduler_timezone" {
   type        = string
   default     = "Asia/Kuala_Lumpur"
 }
+
+variable "github_repository" {
+  description = "owner/repo allowed to impersonate ci-deployer via WIF"
+  type        = string
+  default     = "RomanUrakhov/atlas-sync"
+}
